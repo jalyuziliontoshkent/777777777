@@ -45,6 +45,7 @@ export default function AdminOrdersPage() {
   const [creating, setCreating] = useState(false);
   const [showComposer, setShowComposer] = useState(true);
   const [materialSearch, setMaterialSearch] = useState("");
+  const [dealerSearch, setDealerSearch] = useState("");
 
   function loadPage() {
     Promise.all([
@@ -88,6 +89,16 @@ export default function AdminOrdersPage() {
     
     return result;
   }, [materials, selectedCategory, materialSearch]);
+
+  const filteredDealers = useMemo(() => {
+    if (!dealerSearch.trim()) return dealers;
+    const search = dealerSearch.toLowerCase();
+    return dealers.filter(
+      (d) =>
+        d.name.toLowerCase().includes(search) ||
+        (d.email && d.email.toLowerCase().includes(search))
+    );
+  }, [dealers, dealerSearch]);
 
   const selectedDealer = useMemo(
     () => dealers.find((dealer) => dealer.id === draft.dealerId) || null,
@@ -280,8 +291,16 @@ export default function AdminOrdersPage() {
                 <h4 className="section-title" style={{ marginBottom: 12 }}>
                   1. Diler tanlang
                 </h4>
-                <div className="list-stack">
-                  {dealers.map((dealer) => (
+                <input
+                  type="text"
+                  className="field"
+                  placeholder="Diler qidirish..."
+                  value={dealerSearch}
+                  onChange={(event) => setDealerSearch(event.target.value)}
+                  style={{ marginBottom: 12 }}
+                />
+                <div className="list-stack" style={{ maxHeight: 350, overflowY: "auto", paddingRight: 4 }}>
+                  {filteredDealers.map((dealer) => (
                     <button
                       key={dealer.id}
                       type="button"
@@ -337,7 +356,7 @@ export default function AdminOrdersPage() {
                   style={{ marginBottom: 12 }}
                 />
 
-                <div className="list-stack">
+                <div className="list-stack" style={{ maxHeight: 350, overflowY: "auto", paddingRight: 4 }}>
                   {filteredMaterials.map((material) => (
                     <button
                       key={material.id}

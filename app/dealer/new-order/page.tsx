@@ -136,7 +136,7 @@ export default function DealerNewOrderPage() {
             style={{ marginBottom: 12 }}
           />
 
-          <div className="list-stack">
+          <div className="list-stack" style={{ maxHeight: 350, overflowY: "auto", paddingRight: 4 }}>
             {filteredMaterials.map((material) => (
               <button
                 key={material.id}
