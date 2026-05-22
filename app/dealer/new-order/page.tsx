@@ -28,6 +28,7 @@ export default function DealerNewOrderPage() {
   const [items, setItems] = useState<DraftItem[]>([]);
   const [notes, setNotes] = useState("");
   const [message, setMessage] = useState("");
+  const [materialSearch, setMaterialSearch] = useState("");
 
   useEffect(() => {
     Promise.all([apiRequest("/categories"), apiRequest("/materials")]).then(([cats, mats]) => {
@@ -37,9 +38,24 @@ export default function DealerNewOrderPage() {
   }, []);
 
   const filteredMaterials = useMemo(() => {
-    if (selectedCategory === "all") return materials;
-    return materials.filter((item) => item.category_id === selectedCategory);
-  }, [materials, selectedCategory]);
+    let result = materials;
+    
+    // Category filter
+    if (selectedCategory !== "all") {
+      result = result.filter((item) => item.category_id === selectedCategory);
+    }
+    
+    // Search filter
+    if (materialSearch.trim()) {
+      const search = materialSearch.toLowerCase();
+      result = result.filter((item) => 
+        item.name.toLowerCase().includes(search) || 
+        (item.category_name?.toLowerCase() || item.category?.toLowerCase() || "").includes(search)
+      );
+    }
+    
+    return result;
+  }, [materials, selectedCategory, materialSearch]);
 
   function resetDimensions() {
     setWidth("");
@@ -110,6 +126,15 @@ export default function DealerNewOrderPage() {
               </button>
             ))}
           </div>
+
+          <input
+            type="text"
+            className="field"
+            placeholder="Material qidirish..."
+            value={materialSearch}
+            onChange={(event) => setMaterialSearch(event.target.value)}
+            style={{ marginBottom: 12 }}
+          />
 
           <div className="list-stack">
             {filteredMaterials.map((material) => (

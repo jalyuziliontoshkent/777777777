@@ -44,6 +44,7 @@ export default function AdminOrdersPage() {
   const [error, setError] = useState("");
   const [creating, setCreating] = useState(false);
   const [showComposer, setShowComposer] = useState(true);
+  const [materialSearch, setMaterialSearch] = useState("");
 
   function loadPage() {
     Promise.all([
@@ -69,9 +70,24 @@ export default function AdminOrdersPage() {
   }, [orders, activeFilter]);
 
   const filteredMaterials = useMemo(() => {
-    if (selectedCategory === "all") return materials;
-    return materials.filter((item) => item.category_id === selectedCategory);
-  }, [materials, selectedCategory]);
+    let result = materials;
+    
+    // Category filter
+    if (selectedCategory !== "all") {
+      result = result.filter((item) => item.category_id === selectedCategory);
+    }
+    
+    // Search filter
+    if (materialSearch.trim()) {
+      const search = materialSearch.toLowerCase();
+      result = result.filter((item) => 
+        item.name.toLowerCase().includes(search) || 
+        (item.category_name?.toLowerCase() || item.category?.toLowerCase() || "").includes(search)
+      );
+    }
+    
+    return result;
+  }, [materials, selectedCategory, materialSearch]);
 
   const selectedDealer = useMemo(
     () => dealers.find((dealer) => dealer.id === draft.dealerId) || null,
@@ -311,6 +327,15 @@ export default function AdminOrdersPage() {
                     </button>
                   ))}
                 </div>
+
+                <input
+                  type="text"
+                  className="field"
+                  placeholder="Material qidirish..."
+                  value={materialSearch}
+                  onChange={(event) => setMaterialSearch(event.target.value)}
+                  style={{ marginBottom: 12 }}
+                />
 
                 <div className="list-stack">
                   {filteredMaterials.map((material) => (
