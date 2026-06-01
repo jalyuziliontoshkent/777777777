@@ -1,0 +1,23 @@
+{
+  "name": "curtain-crm-desktop",
+  "version": "1.0.0",
+  "description": "Desktop app for Curtain CRM",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.curtaincrm.desktop",
+    "productName": "Curtain CRM",
+    "win": {
+      "target": ["nsis", "portable"]
+    }
+  },
+  "author": "Alfatech",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}

@@ -82,7 +82,7 @@ export default function AdminDashboardPage() {
               <div key={s.label} className="card stat-card" style={{ borderTop: `3px solid ${s.color}` }}>
                 <div className="split-row">
                   <div className="mini-kpi">{s.label}</div>
-                  <span style={{ fontSize: 20 }}>{s.icon}</span>
+                  <span style={{ fontSize: 24 }}>{s.icon}</span>
                 </div>
                 <div className="metric-number" style={{ color: s.color }}>{s.value}</div>
               </div>
@@ -92,9 +92,9 @@ export default function AdminDashboardPage() {
           <div className="two-col" style={{ marginBottom: 16 }}>
             {/* Revenue card */}
             <div className="hero-card">
-              <div className="split-row" style={{ marginBottom: 8 }}>
-                <span className="pill">💰 Daromadlar</span>
-                <Link href="/admin/orders" className="button-secondary button" style={{ padding: "6px 12px", fontSize: 12 }}>
+              <div className="split-row" style={{ marginBottom: 12 }}>
+                <span className="pill" style={{ fontSize: 13, padding: "6px 12px" }}>💰 Daromadlar</span>
+                <Link href="/admin/orders" className="button-secondary button" style={{ padding: "8px 16px", fontSize: 13 }}>
                   Buyurtmalar →
                 </Link>
               </div>
@@ -144,8 +144,8 @@ export default function AdminDashboardPage() {
                 {(reports?.daily || []).map((day: any, i: number) => (
                   <div key={day.day} className="data-row">
                     <span className="tooltip-chip">{day.orders}</span>
-                    <span className="mono" style={{ fontSize: 12 }}>{day.day}</span>
-                    <strong style={{ fontSize: 13 }}>{money(day.revenue || 0)}</strong>
+                    <span className="mono" style={{ fontSize: 13 }}>{day.day}</span>
+                    <strong style={{ fontSize: 14 }}>{money(day.revenue || 0)}</strong>
                   </div>
                 ))}
               </div>
@@ -158,10 +158,10 @@ export default function AdminDashboardPage() {
                 {lowStock.length ? lowStock.map((item) => (
                   <div key={item.id} className="split-row">
                     <div>
-                      <strong style={{ fontSize: 13 }}>{item.name}</strong>
+                      <strong style={{ fontSize: 15 }}>{item.name}</strong>
                       <div className="muted">{item.category_name || item.category}</div>
                     </div>
-                    <span className="status-pill status-danger">⚡ {item.stock_quantity} kv.m</span>
+                    <span className="status-pill status-danger" style={{ fontSize: 13, padding: "6px 12px" }}>⚡ {item.stock_quantity} kv.m</span>
                   </div>
                 )) : (
                   <div className="empty-state">
@@ -183,11 +183,11 @@ export default function AdminDashboardPage() {
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                       <span className="tooltip-chip">{i + 1}</span>
                       <div>
-                        <strong style={{ fontSize: 13 }}>{item.name}</strong>
+                        <strong style={{ fontSize: 15 }}>{item.name}</strong>
                         <div className="muted">{item.count} ta · {Number(item.total_sqm || 0).toFixed(1)} kv.m</div>
                       </div>
                     </div>
-                    <strong style={{ fontSize: 13 }}>{money(item.total_price || 0)}</strong>
+                    <strong style={{ fontSize: 15 }}>{money(item.total_price || 0)}</strong>
                   </div>
                 ))}
               </div>
@@ -202,11 +202,11 @@ export default function AdminDashboardPage() {
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                       <span className="tooltip-chip">{i + 1}</span>
                       <div>
-                        <strong style={{ fontSize: 13 }}>{item.name}</strong>
+                        <strong style={{ fontSize: 15 }}>{item.name}</strong>
                         <div className="muted">{item.orders} ta buyurtma</div>
                       </div>
                     </div>
-                    <strong style={{ fontSize: 13 }}>{money(item.revenue || 0)}</strong>
+                    <strong style={{ fontSize: 15 }}>{money(item.revenue || 0)}</strong>
                   </div>
                 ))}
               </div>
